@@ -25,6 +25,7 @@ These events are fired on the window.
 
 - native.keyboardshow
   * A number `keyboardHeight` is given on the event object, which is the pixel height of the keyboard.
+  * A number `visibleAreaHeight` is the pixel height of visible part of view, without any decorations, useful if `keyboardHeight` is wrong (android only).
 - native.keyboardhide
 
 
@@ -91,7 +92,7 @@ This event fires when the keyboard will be shown or when the keyboard frame resi
     window.addEventListener('native.keyboardshow', keyboardShowHandler);
 
     function keyboardShowHandler(e){
-        alert('Keyboard height is: ' + e.keyboardHeight);
+        alert('Keyboard height is: ' + (e.visibleAreaHeight ? window.innerHeight - e.visibleAreaHeight : e.keyboardHeight));
     }
 
 Properties

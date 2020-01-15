@@ -38,9 +38,10 @@ channel.onCordovaReady.subscribe(function() {
     function success(msg) {
         var action = msg.charAt(0);
         if ( action === 'S' ) {
-            var keyboardHeight = msg.substr(1);
+            var heights = msg.substr(1).split("_");
+            var keyboardHeight = heights[0], visibleAreaHeight = heights[1];
             cordova.plugins.Keyboard.isVisible = true;
-            cordova.fireWindowEvent('native.keyboardshow', { 'keyboardHeight': + keyboardHeight });
+            cordova.fireWindowEvent('native.keyboardshow', { 'keyboardHeight': + keyboardHeight, 'visibleAreaHeight': + visibleAreaHeight });
 
             //deprecated
             cordova.fireWindowEvent('native.showkeyboard', { 'keyboardHeight': + keyboardHeight });

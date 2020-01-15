@@ -79,7 +79,7 @@ public class IonicKeyboard extends CordovaPlugin {
 
                             // cache properties for later use
                             int rootViewHeight = rootView.getRootView().getHeight();
-                            int resultBottom = r.bottom;
+                            int visibleHeight = r.bottom - r.top;
 
                             // calculate screen height differently for android versions >= 21: Lollipop 5.x, Marshmallow 6.x
                             //http://stackoverflow.com/a/29257533/3642890 beware of nexus 5
@@ -94,11 +94,12 @@ public class IonicKeyboard extends CordovaPlugin {
                                 screenHeight = rootViewHeight;
                             }
 
-                            int heightDiff = screenHeight - resultBottom;
+                            int heightDiff = screenHeight - visibleHeight;
 
                             int pixelHeightDiff = (int)(heightDiff / density);
                             if (pixelHeightDiff > 100 && pixelHeightDiff != previousHeightDiff) { // if more than 100 pixels, its probably a keyboard...
-                                String msg = "S" + Integer.toString(pixelHeightDiff);
+                                // screenHeight has some troubles, "window.innerHeight-visibleHeight" is much more accurate
+                                String msg = "S" + Integer.toString(pixelHeightDiff) + "_" + Integer.toString((int)(visibleHeight / density));
                                 result = new PluginResult(PluginResult.Status.OK, msg);
                                 result.setKeepCallback(true);
                                 callbackContext.sendPluginResult(result);
