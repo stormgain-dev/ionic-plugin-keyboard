@@ -129,7 +129,11 @@ public class IonicKeyboard extends CordovaPlugin {
 
     @Override
     public void onDestroy() {
-        rootView.getViewTreeObserver().removeOnGlobalLayoutListener(list);
+        // Checking for null is required to address issues like this one:
+        // https://github.com/ionic-team/cordova-plugin-ionic-keyboard/issues/158
+        if (rootView != null && list != null) {
+            rootView.getViewTreeObserver().removeOnGlobalLayoutListener(list);
+        }
     }
 
 }
